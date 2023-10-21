@@ -132,89 +132,45 @@ public class ArrayTasks {
      * arr = [[5, 4], [7]]       -> [[7], [4, 5]]
      */
     public int[][] sortRaggedArray(int[][] arr) {
-        /*
-        int k = 0;
-        int[][] arrTmp = new int[arr.length][];
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i].length <= arr[j].length) {
-                    arrTmp[k] = arr[i];
-                    k++;
-                    i++;
-                }
-            }
-        }
-        *
-         */
-        printArrey(arr);
-        printArrey(sortArray(arr, 0, arr.length));
-        return arr;//sortArray(arr, 0, arr.length);
-    }
-
-    private int[][] sortArray(int[][] arr, int start, int end) {
-        int length = end - start;
-
-        if (length <= 1) {
+        if (arr == null && arr.length < 0) {
             return arr;
         }
 
-        if (length == 2) {
-            if (arr[start].length > arr[end - 1].length) {
-                int[] tmp = arr[start];
-                arr[start] = arr[end - 1];
-                arr[end - 1] = tmp;
-            }
+        if (arr.length == 1) {
+            sortArray(arr[0]);
             return arr;
         }
 
-        int mid = length / 2;
-        int leftArrayEnd= mid + start + 1;
-        int rightArrayStart = mid + start + 1;
+        for (int i = 1; i < arr.length; i++) {
+            int[] current = arr[i];
+            int j = i - 1;
 
-        sortArray(arr, start, leftArrayEnd);
-
-        sortArray(arr, rightArrayStart, end);
-
-        int i = start, j = rightArrayStart, k = 0;
-        int[][] arrTmp = new int[end][];
-
-        while (i < leftArrayEnd && (j < end) ) {
-            if (arr[i].length < arr[j].length) {
-                arrTmp[k] = arr[i];
-                k++;
-                i++;
-            } else {
-                arrTmp[k] = arr[j];
-                k++;
-                j++;
+            while (j >= 0 && arr[j].length > current.length) {
+                arr[j + 1] = arr[j];
+                j--;
             }
+
+            arr[j + 1] = current;
         }
 
-        while (i < leftArrayEnd) {
-            arrTmp[k] = arr[i];
-            k++;
-            i++;
-        }
-
-        while (j < end) {
-            arrTmp[k] = arr[j];
-            k++;
-            j++;
-        }
-
-        System.out.println("arrTmp.length = " + arrTmp.length);
-        return arrTmp;
+        return arr;
     }
 
-    public void printArrey (int[][] arr) {
-        System.out.print("{ ");
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(" { ");
-            for (int j = 0; j < arr[i].length; j++) {
-                System.out.print(arr[i][j] + " ");
-            }
-            System.out.print("}");
+    private void sortArray(int[] row) {
+        if (row == null && row.length <= 1) {
+            return;
         }
-        System.out.println(" }");
+
+        for (int i = 1; i < row.length; i++) {
+            int current = row[i];
+            int j = i - 1;
+
+            while (j >= 0 && row[j] > current) {
+                row[j + 1] = row[j];
+                j--;
+            }
+
+            row[j + 1] = current;
+        }
     }
 }
